@@ -20,7 +20,22 @@ export type RegResponse = {
   id: 0
 }
 
+export type CreateGameRequest = {
+  type: "create_game",
+  data: {
+    questions: Question[]
+  },
+  id: 0
+}
 
+export type GameCreatedResponse = {
+  type: "game_created",
+  data: {
+    gameId: string,
+    code: string
+  },
+  id: 0
+}
 
 
 

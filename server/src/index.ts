@@ -1,8 +1,9 @@
 import { type WebSocket, WebSocketServer } from "ws";
 import { randomUUID } from "node:crypto";
 import { connections } from './store';
-import { RegRequest } from './types';
+import { CreateGameRequest, RegRequest } from './types';
 import { registerHandler } from './handlers/register-handler';
+import { createGameHandler } from './handlers/create-game-handler';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
@@ -23,6 +24,9 @@ wss.on("connection", (connection: WebSocket) => {
       switch (parsed.type) {
         case "reg":
           registerHandler(connection, parsed as RegRequest);
+          break;
+        case 'create_game':
+          createGameHandler(connection, parsed as CreateGameRequest);
           break;
       }
     } catch(e) {
