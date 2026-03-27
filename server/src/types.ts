@@ -1,5 +1,36 @@
 import type { WebSocket } from 'ws';
 
+export type RegRequest = {
+	type: "reg";
+	data: {
+		name: string;
+		password: string;
+	};
+	id: number;
+};
+
+export type RegResponse = {
+  type: "reg";
+  data: {
+    name: string;
+    index: string;
+    error: boolean;
+    errorText: string;
+  },
+  id: 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
 export interface Player {
   name: string;
   index: string;
