@@ -37,9 +37,30 @@ export type GameCreatedResponse = {
   id: 0
 }
 
+export type JoinGameRequest = {
+  type: "join_game",
+  data: {
+    code: string
+  },
+  id: 0
+}
 
+export type GameJoinedResponse = {
+  type: "game_joined",
+  data: {
+    gameId: string
+  },
+  id: 0
+}
 
-
+export type PlayerJoinedResponse = {
+  type: "player_joined",
+  data: {
+    playerName: string,
+    playerCount: number
+  },
+  id: 0
+}
 
 
 
