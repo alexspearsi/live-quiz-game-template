@@ -1,10 +1,133 @@
 import type { WebSocket } from 'ws';
 
+export type RegRequest = {
+	type: "reg";
+	data: {
+		name: string;
+		password: string;
+	};
+	id: number;
+};
+
+export type RegResponse = {
+  type: "reg";
+  data: {
+    name: string;
+    index: string;
+    error: boolean;
+    errorText: string;
+  },
+  id: 0
+}
+
+export type CreateGameRequest = {
+  type: "create_game",
+  data: {
+    questions: Question[]
+  },
+  id: 0
+}
+
+export type GameCreatedResponse = {
+  type: "game_created",
+  data: {
+    gameId: string,
+    code: string
+  },
+  id: 0
+}
+
+export type JoinGameRequest = {
+  type: "join_game",
+  data: {
+    code: string
+  },
+  id: 0
+}
+
+export type GameJoinedResponse = {
+  type: "game_joined",
+  data: {
+    gameId: string
+  },
+  id: 0
+}
+
+export type PlayerJoinedResponse = {
+  type: "player_joined",
+  data: {
+    playerName: string,
+    playerCount: number
+  },
+  id: 0
+}
+
+export type PlayerJoinedBroadcastResponse = {
+  type: "player_joined",
+  data: {
+    playerName: string,
+    playerCount: number,
+  },
+  id: 0
+}
+
+export type UpdatePlayersBroadcastResponse = {
+  type: "update_players",
+  data: {
+    name: string,
+    index: number | string,
+    score: number
+  }[],
+  id: 0
+}
+
+export type StartGameRequest = {
+  type: "start_game",
+  data: {
+    gameId: string
+  },
+  id: 0
+}
+
+export type SubmitAnswerRequest = {
+  type: 'answer',
+  data: {
+    gameId: string,
+    questionIndex: number,
+    answerIndex: number
+  },
+  id: 0
+}
+
+export type AnswerAcceptedResponse = {
+  type: "answer_accepted",
+  data: {
+    questionIndex: number
+  },
+  id: 0
+}
+
+export type QuestionResultBroadcastResponse = {
+  type: "question_result",
+  data: {
+    questionIndex: number,
+    correctIndex: number,
+    playersResults: {
+      name: string,
+      answered: boolean,
+      correct: boolean,
+      pointsEarned: number,
+      totalScore: number
+    }[]
+  },
+  id: 0
+}
+
 export interface Player {
   name: string;
   index: string;
   score: number;
-  ws?: WebSocket;
+  ws: WebSocket;
   hasAnswered?: boolean;
   answerTime?: number;
   answeredCorrectly?: boolean;
