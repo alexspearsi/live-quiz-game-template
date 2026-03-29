@@ -1,10 +1,11 @@
 import { type WebSocket, WebSocketServer } from "ws";
 import { randomUUID } from "node:crypto";
 import { connections } from './store';
-import { CreateGameRequest, JoinGameRequest, RegRequest } from './types';
+import { CreateGameRequest, JoinGameRequest, RegRequest, StartGameRequest } from './types';
 import { registerHandler } from './handlers/register-handler';
 import { createGameHandler } from './handlers/create-game-handler';
 import { joinGameHandler } from './handlers/join-game-handler';
+import { startGameHandler } from './handlers/start-game-handler';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
@@ -35,6 +36,9 @@ wss.on("connection", (connection: WebSocket) => {
           break;
         case 'join_game':
           joinGameHandler(connection, parsed as JoinGameRequest);
+          break;
+        case 'start_game':
+          startGameHandler(connection, parsed as StartGameRequest);
           break;
       }
     } catch(e) {

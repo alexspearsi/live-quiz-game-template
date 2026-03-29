@@ -62,6 +62,32 @@ export type PlayerJoinedResponse = {
   id: 0
 }
 
+export type PlayerJoinedBroadcastResponse = {
+  type: "player_joined",
+  data: {
+    playerName: string,
+    playerCount: number,
+  },
+  id: 0
+}
+
+export type UpdatePlayersBroadcastResponse = {
+  type: "update_players",
+  data: {
+    name: string,
+    index: number | string,
+    score: number
+  }[],
+  id: 0
+}
+
+export type StartGameRequest = {
+  type: "start_game",
+  data: {
+    gameId: string
+  },
+  id: 0
+}
 
 
 
@@ -71,7 +97,7 @@ export interface Player {
   name: string;
   index: string;
   score: number;
-  ws?: WebSocket;
+  ws: WebSocket;
   hasAnswered?: boolean;
   answerTime?: number;
   answeredCorrectly?: boolean;

@@ -1,5 +1,6 @@
 import { games, sessions, users } from '../store';
-import { Game, JoinGameRequest } from '../types';
+import { Game, GameJoinedResponse, JoinGameRequest, PlayerJoinedBroadcastResponse, UpdatePlayersBroadcastResponse } from '../types';
+import { broadcastToGame } from '../utils/broadcast-to-game';
 import { send } from '../utils/send';
 import { WebSocket } from 'ws';
 
@@ -51,9 +52,9 @@ export function joinGameHandler(connection: WebSocket, msg: JoinGameRequest) {
       gameId: game.id
     },
     id: 0
-  })
+  } as GameJoinedResponse)
 
-  const playerJoinedPayload = {
+  const playerJoinedPayload: PlayerJoinedBroadcastResponse = {
     type: "player_joined",
     data: {
       playerName: user.name,
@@ -62,9 +63,14 @@ export function joinGameHandler(connection: WebSocket, msg: JoinGameRequest) {
     id: 0
   }
 
-  const updatePlayersPayload = {
+  const updatePlayersPayload: UpdatePlayersBroadcastResponse = {
     type: "update_players",
-    data: game.players.map(player => ({ name: player.name, index: player.index, score: player.score })),
+    data: game.players.map(player => (
+      { 
+        name: player.name, 
+        index: player.index, 
+        score: player.score 
+      })),
     id: 0,
   };
 
@@ -76,14 +82,5 @@ export function joinGameHandler(connection: WebSocket, msg: JoinGameRequest) {
   if (hostEntry) {
     send(hostEntry[0], playerJoinedPayload);
     send(hostEntry[0], updatePlayersPayload);
-  }
-
-}
-
-function broadcastToGame(game: Game, payload: unknown) {
-  for (const player of game.players) {
-    if (player.ws?.readyState === WebSocket.OPEN) {
-      send(player.ws, payload)
-    }
   }
 }
