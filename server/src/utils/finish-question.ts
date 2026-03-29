@@ -65,8 +65,9 @@ export function finishQuestion(connection: WebSocket, game: Game) {
       connection, 
       game, 
       { type: "game_finished", data: { scoreboard }, id: 0 });
+      
   } else {
-    game.currentQuestion++;
+    game.currentQuestion += 1;
 
     broadcastQuestion(connection, game);
   }

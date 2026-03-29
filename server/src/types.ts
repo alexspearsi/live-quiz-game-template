@@ -89,9 +89,39 @@ export type StartGameRequest = {
   id: 0
 }
 
+export type SubmitAnswerRequest = {
+  type: 'answer',
+  data: {
+    gameId: string,
+    questionIndex: number,
+    answerIndex: number
+  },
+  id: 0
+}
 
+export type AnswerAcceptedResponse = {
+  type: "answer_accepted",
+  data: {
+    questionIndex: number
+  },
+  id: 0
+}
 
-
+export type QuestionResultBroadcastResponse = {
+  type: "question_result",
+  data: {
+    questionIndex: number,
+    correctIndex: number,
+    playersResults: {
+      name: string,
+      answered: boolean,
+      correct: boolean,
+      pointsEarned: number,
+      totalScore: number
+    }[]
+  },
+  id: 0
+}
 
 export interface Player {
   name: string;
